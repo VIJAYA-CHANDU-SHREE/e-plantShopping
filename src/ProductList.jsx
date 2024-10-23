@@ -4,11 +4,15 @@ import CartItem from './CartItem';
 import { addItem} from './CartSlice';
 import { useDispatch } from 'react-redux';
 
+
 function ProductList() {
     const dispatch=useDispatch();
+    // const uniqueCount = useSelector(state => state.cart.uniqueCount);
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
+    const [uniquePlantsCount, setUniquePlantsCount] = useState(0); // State to track unique plants
+
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
