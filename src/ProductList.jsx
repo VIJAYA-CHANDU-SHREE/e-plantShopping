@@ -12,7 +12,7 @@ function ProductList() {
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
     const [uniquePlantsCount, setUniquePlantsCount] = useState(0); // State to track unique plants
-
+    const [disabledButtons, setDisabledButtons] = useState({});
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
@@ -20,6 +20,11 @@ function ProductList() {
            ...prevState,
            [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
          }));
+
+         setDisabledButtons((prevState) => ({
+            ...prevState,
+            [product.name]: true, // Disable the button for this product
+        }));
       };
 
     const plantsArray = [
@@ -62,7 +67,7 @@ function ProductList() {
                     description: "Purifies the air and has healing properties for skin.",
                     cost: "$14"
                 }
-            ]
+            ]                               
         },
         {
             category: "Aromatic Fragrant Plants",
@@ -259,10 +264,13 @@ const handlePlantsClick = (e) => {
     setShowCart(false); // Hide the cart when navigating to About Us
 };
 
-   const handleContinueShopping = (e) => {
-    e.preventDefault();
-    setShowCart(false);
-  };
+   const handleContinueShopping=(e) =>{
+        e.preventDefault();
+        console.log("Continue Shopping clicked");
+        setShowCart(false);
+        setShowPlants(true);
+    }
+
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -295,7 +303,7 @@ const handlePlantsClick = (e) => {
                 <div className="product-title">{plant.name}</div>
                 <div className='Product-discription'>{plant.description}</div>
                 <div className="product-price">{plant.cost}</div>
-                <button  className="product-button" onClick={() => handleAddToCart(plant)}>{addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}</button>
+                <button  className="product-button" onClick={() => handleAddToCart(plant)} disabled={disabledButtons[plant.name]} >{addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}</button>
             </div>
             ))}
         </div>
